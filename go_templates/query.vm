@@ -15,7 +15,7 @@ package $propFile.query_package;
 import (
   "context"
 #foreach( $qp in $q.queryParameters)
-#if( $qp.algorandFormat == "base64" )
+#if( $qp.algorandFormat == "base64" || "#isBoxNameSpecialCase($queryType, $qp)" == "true" )
   "encoding/base64"
 #break
 #end
@@ -53,13 +53,14 @@ import (
 // ${paramsType} contains all of the query parameters for url serialization.
 type ${paramsType} struct {
 #foreach( $qp in $q.queryParameters)
-#if ( "#queryParamTypeName($qp)" != "" )
+#set ( $qpName = "#queryParamTypeName($qp, false)" )
+#if ( $qpName != "" )
 
-  // $str.formatDoc("#queryParamTypeName($qp) ${str.uncapitalize($qp.doc)}", "  // ")
+  // $str.formatDoc("$qpName ${str.uncapitalize($qp.doc)}", "  // ")
   #if ( $qp.arrayType == "string" )
-    #queryParamTypeName($qp) []string `url:"$qp.propertyName,omitempty,comma"`
+    $qpName []string `url:"$qp.propertyName,omitempty,comma"`
   #else
-    #queryParamTypeName($qp) #oapiToGo($qp, false) `url:"$qp.propertyName,omitempty"`
+    $qpName #oapiToGo($qp, false) `url:"$qp.propertyName,omitempty"`
   #end
 #end
 #end
@@ -86,30 +87,34 @@ type $queryType struct {
 #end
 }
 #foreach( $qp in $q.queryParameters)
-#if ( "#queryParamTypeName($qp)" != "" && "#queryParamTypeName($qp)" != "Format")## No setter for Format
+#set ( $qpFieldName = "#queryParamTypeName($qp, false)" )
+#set ( $qpName = "#queryParamTypeName($qp, true)" )
+#if ( $qpName != "" && $qpName != "Format")## No setter for Format
 
 ## Special handling for date fields.
 #if( $qp.algorandFormat == "RFC3339 String" )
-// $str.formatDoc("#queryParamTypeName($qp)String ${str.uncapitalize($qp.doc)}", "// ")
-func (s *$queryType) #queryParamTypeName($qp)String(#queryParamTypeName($qp) #oapiToGo($qp, false)) *$queryType {
-  s.p.#queryParamTypeName($qp) = #queryParamTypeName($qp)
+// $str.formatDoc("${qpName}String ${str.uncapitalize($qp.doc)}", "// ")
+func (s *$queryType) ${qpName}String($qpName #oapiToGo($qp, false)) *$queryType {
+  s.p.$qpFieldName = $qpName
 
   return s
 }
 
-// $str.formatDoc("#queryParamTypeName($qp) ${str.uncapitalize($qp.doc)}", "// ")
-func (s *$queryType) #queryParamTypeName($qp)(#queryParamTypeName($qp) time.Time) *$queryType {
-  #queryParamTypeName($qp)Str := #queryParamTypeName($qp).Format(time.RFC3339)
+// $str.formatDoc("$qpName ${str.uncapitalize($qp.doc)}", "// ")
+func (s *$queryType) ${qpName}($qpName time.Time) *$queryType {
+  ${qpName}Str := ${qpName}.Format(time.RFC3339)
 
-  return s.#queryParamTypeName($qp)String(#queryParamTypeName($qp)Str)
+  return s.${qpName}String(${qpName}Str)
 }
 #else
-// $str.formatDoc("#queryParamTypeName($qp) ${str.uncapitalize($qp.doc)}", "// ")
-func (s *$queryType) #queryParamTypeName($qp)(#queryParamTypeName($qp) #oapiToGo($qp, true)) *$queryType {
-#if( $qp.algorandFormat == "base64" )
-  s.p.#queryParamTypeName($qp) = base64.StdEncoding.EncodeToString(#queryParamTypeName($qp))
+// $str.formatDoc("$qpName ${str.uncapitalize($qp.doc)}", "// ")
+func (s *$queryType) ${qpName}($qpName #queryParamType($qp, true)) *$queryType {
+#if ( "#isBoxNameSpecialCase($queryType, $qp)" == "true" )
+  s.p.$qpFieldName = "b64:" + base64.StdEncoding.EncodeToString($qpName)
+#elseif( $qp.algorandFormat == "base64" )
+  s.p.$qpFieldName = base64.StdEncoding.EncodeToString($qpName)
 #elseif ( $qp.type == "integer" || $qp.type == "string" || $qp.type == "boolean" || $qp.arrayType )
-  s.p.#queryParamTypeName($qp) = #queryParamTypeName($qp)
+  s.p.$qpFieldName = $qpName
 #else
 UNHANDLED TYPE
 - ref: $!qp.refType
@@ -131,16 +136,18 @@ UNHANDLED TYPE
 #set( $processedPath = """${q.path}""" )
 #if( $str.matches($q.path, ".*\{.*}.*") )
 #set( $processedPath = "fmt.Sprintf(""" )
-#set( $argList = "" )
+#set( $argList = ", common.EscapeParams(" )
+#set( $sep = "" )
 #foreach( $part in $q.pathParts )
 #if ( $part.matches("\{.*}") )
-#set( $processedPath = "${processedPath}/%v" )
-#set( $argList = "$argList, s.${str.kebabToCamel($str.unwrap($part))}" )
+#set( $processedPath = "${processedPath}/%s" )
+#set( $argList = "${argList}${sep}s.${str.kebabToCamel($str.unwrap($part))}" )
+#set( $sep = ", " )
 #else
 #set( $processedPath = "${processedPath}/$part" )
 #end
 #end
-#set( $processedPath = "${processedPath}""$argList)" )
+#set( $processedPath = "${processedPath}""$argList)...)" )
 #end
 ## Return types are not consistent so manually add in the inconsistent functions...
 #if( $queryType == "PendingTransactionsByAddress" )
@@ -215,7 +222,7 @@ func (s *SendRawTransaction) Do(ctx context.Context, headers ...*common.Header) 
   if addContentType {
     headers = append(headers, &common.Header{"Content-Type", "application/x-binary"})
   }
-  err = s.c.post(ctx, &response, "/v2/transactions", s.rawtxn, headers)
+  err = s.c.post(ctx, &response, "/v2/transactions", nil, headers, s.rawtxn)
   txid = response.Txid
   return
 }
@@ -236,12 +243,27 @@ func (s *SuggestedParams) Do(ctx context.Context, headers ...*common.Header) (pa
 }
 #elseif( $queryType == "TealCompile" )## TODO: "post" can be generated, there is nothing special here.
 func (s *TealCompile) Do(ctx context.Context, headers ...*common.Header) (response models.CompileResponse, err error) {
-  err = s.c.post(ctx, &response, "/v2/teal/compile", s.source, headers)
+  err = s.c.post(ctx, &response, "/v2/teal/compile", s.p, headers, s.source)
   return
 }
 #elseif( $queryType == "TealDryrun" )## TODO: "post" can be generated, there is nothing special here.
 func (s *TealDryrun) Do(ctx context.Context, headers ...*common.Header) (response models.DryrunResponse, err error) {
-  err = s.c.post(ctx, &response, "/v2/teal/dryrun", msgpack.Encode(&s.request), headers)
+  err = s.c.post(ctx, &response, "/v2/teal/dryrun", nil, headers, msgpack.Encode(&s.request))
+  return
+}
+#elseif( $queryType == "TealDisassemble" )## TODO: "post" can be generated, there is nothing special here.
+func (s *TealDisassemble) Do(ctx context.Context, headers ...*common.Header) (response models.DisassembleResponse, err error) {
+  err = s.c.post(ctx, &response, "/v2/teal/disassemble", nil, headers, s.source)
+  return
+}
+#elseif( $queryType == "UnsetSyncRound" )## TODO: "delete" can be generated, there is nothing special here.
+func (s *${queryType}) Do(ctx context.Context, headers ...*common.Header) (response $returnType, err error) {
+  err = s.c.delete(ctx, &response, $processedPath, nil, headers)
+  return
+}
+#elseif( $queryType == "SetSyncRound" )## TODO: "post" can be generated, there is nothing special here.
+func (s *${queryType}) Do(ctx context.Context, headers ...*common.Header) (response $returnType, err error) {
+  err = s.c.post(ctx, &response, $processedPath, nil, headers, nil)
   return
 }
 #else## finally... machine generate the rest
