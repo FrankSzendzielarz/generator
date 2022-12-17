@@ -25,7 +25,7 @@
 #elseif ($prop.arrayType && $prop.format == "byte")
 #set( $propType = "byte[]" )
 #elseif ($prop.type == "string" && $prop.format == "byte")
-#set( $propType = "byte[]" )
+#set( $propType = "System.IO.Stream" )
 #elseif( $prop.type == "string" && $setter == "true" && $prop.propertyName=="rawtxn")
 #set( $propType = "List<SignedTransaction>" )
 #elseif( $prop.type == "string" && $setter == "true")

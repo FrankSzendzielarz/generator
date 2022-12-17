@@ -175,9 +175,9 @@ namespace Algorand.Algod
 #end
               var urlBuilder_ = new System.Text.StringBuilder();
 #if($q.queryParameters.size()>0)
-              urlBuilder_.Append("$q.path?");
+              urlBuilder_.Append("$q.path.substring(1,$q.path.length())?");
 #else              
-              urlBuilder_.Append("$q.path");
+              urlBuilder_.Append("$q.path.substring(1,$q.path.length())");
 #end              
 #foreach( $parm in $q.pathParameters )
               urlBuilder_.Replace("{$parm.propertyName}", System.Uri.EscapeDataString(ConvertToString($str.kebabToCamel($parm.propertyName), System.Globalization.CultureInfo.InvariantCulture)));
@@ -213,7 +213,7 @@ namespace Algorand.Algod
                     PrepareRequest(client_, request_, urlBuilder_);
 
                     var url_ = urlBuilder_.ToString();
-                    if (url_.StartsWith("/")) { url_ = url_.Remove(0,1); }
+
                     request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
                     PrepareRequest(client_, request_, url_);
