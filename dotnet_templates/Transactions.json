@@ -248,7 +248,7 @@
               "format": "byte"
             },
             "nullable": true,
-            "x-algorand-longname": "ApplicationArgs"
+            "x-algorand-longname": "Application-Args"
           },
           "apfa": {
             "type": "array",
@@ -257,7 +257,7 @@
               "format": "int64"
             },
             "nullable": true,
-            "x-algorand-longname": "ForeignApps"
+            "x-algorand-longname": "Foreign-Apps"
           },
           "apas": {
             "type": "array",
@@ -266,7 +266,7 @@
               "format": "int64"
             },
             "nullable": true,
-            "x-algorand-longname": "ForeignAssets"
+            "x-algorand-longname": "Foreign-Assets"
           }
         },
         "additionalProperties": false
@@ -283,7 +283,7 @@
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -310,7 +310,7 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -344,7 +344,7 @@
                 "$ref": "#/components/schemas/Algorand.TEALProgram"
               }
             ],
-            "x-algorand-longname": "ApprovalProgram"
+            "x-algorand-longname": "Approval-Program"
           },
           "apsu": {
             "allOf": [
@@ -352,7 +352,7 @@
                 "$ref": "#/components/schemas/Algorand.TEALProgram"
               }
             ],
-            "x-algorand-longname": "ClearStateProgram"
+            "x-algorand-longname": "Clear-State-Program"
           },
           "apgs": {
             "allOf": [
@@ -360,7 +360,7 @@
                 "$ref": "#/components/schemas/StateSchema"
               }
             ],
-            "x-algorand-longname": "GlobalStateSchema"
+            "x-algorand-longname": "Global-State-Schema"
           },
           "apls": {
             "allOf": [
@@ -368,14 +368,14 @@
                 "$ref": "#/components/schemas/StateSchema"
               }
             ],
-            "x-algorand-longname": "LocalStateSchema"
+            "x-algorand-longname": "Local-State-Schema"
           },
           "apep": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ExtraProgramPages"
+            "x-algorand-longname": "Extra-Program-Pages"
           }
         },
         "additionalProperties": false
@@ -393,7 +393,7 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -420,7 +420,7 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -447,7 +447,7 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -474,7 +474,7 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ApplicationId"
+            "x-algorand-longname": "Application-Id"
           },
           "apan": {
             "allOf": [
@@ -492,7 +492,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "ApprovalProgram"
+            "x-algorand-longname": "Approval-Program"
           },
           "apsu": {
             "allOf": [
@@ -501,7 +501,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "ClearStateProgram"
+            "x-algorand-longname": "Clear-State-Program"
           },
           "apgs": {
             "allOf": [
@@ -510,7 +510,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "GlobalStateSchema"
+            "x-algorand-longname": "Global-State-Schema"
           },
           "apls": {
             "allOf": [
@@ -519,14 +519,14 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "LocalStateSchema"
+            "x-algorand-longname": "Local-State-Schema"
           },
           "apep": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "ExtraProgramPages"
+            "x-algorand-longname": "Extra-Program-Pages"
           }
         },
         "additionalProperties": false
@@ -548,7 +548,7 @@
                 "$ref": "#/components/schemas/Algorand.Address"
               }
             ],
-            "x-algorand-longname": "AssetReceiver"
+            "x-algorand-longname": "Asset-Receiver"
           }
         },
         "additionalProperties": false
@@ -568,7 +568,7 @@
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "AssetIndex"
+            "x-algorand-longname": "Asset-Index"
           }
         },
         "additionalProperties": false
@@ -590,7 +590,7 @@
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "AssetAmount"
+            "x-algorand-longname": "Asset-Amount"
           },
           "asnd": {
             "allOf": [
@@ -598,7 +598,7 @@
                 "$ref": "#/components/schemas/Algorand.Address"
               }
             ],
-            "x-algorand-longname": "AssetSender"
+            "x-algorand-longname": "Asset-Sender"
           },
           "arcv": {
             "allOf": [
@@ -606,7 +606,7 @@
                 "$ref": "#/components/schemas/Algorand.Address"
               }
             ],
-            "x-algorand-longname": "AssetReceiver"
+            "x-algorand-longname": "Asset-Receiver"
           }
         },
         "additionalProperties": false
@@ -647,7 +647,7 @@
                 "$ref": "#/components/schemas/Algorand.Algod.Model.AssetParams"
               }
             ],
-            "x-algorand-longname": "AssetParams"
+            "x-algorand-longname": "Asset-Params"
           }
         },
         "additionalProperties": false
@@ -685,18 +685,18 @@
                 "$ref": "#/components/schemas/Algorand.Address"
               }
             ],
-            "x-algorand-longname": "FreezeTarget"
+            "x-algorand-longname": "Freeze-Target"
           },
           "faid": {
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "AssetFreezeID"
+            "x-algorand-longname": "Asset-Freeze-ID"
           },
           "afrz": {
             "type": "boolean",
             "default": false,
-            "x-algorand-longname": "FreezeState"
+            "x-algorand-longname": "Freeze-State"
           }
         },
         "additionalProperties": false
@@ -722,7 +722,7 @@
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "XferAsset"
+            "x-algorand-longname": "Xfer-Asset"
           }
         },
         "additionalProperties": false
@@ -743,7 +743,7 @@
             "type": "integer",
             "format": "int64",
             "default": 0,
-            "x-algorand-longname": "AssetAmount"
+            "x-algorand-longname": "Asset-Amount"
           },
           "arcv": {
             "allOf": [
@@ -751,7 +751,7 @@
                 "$ref": "#/components/schemas/Algorand.Address"
               }
             ],
-            "x-algorand-longname": "AssetReceiver"
+            "x-algorand-longname": "Asset-Receiver"
           },
           "aclose": {
             "allOf": [
@@ -760,7 +760,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "AssetCloseTo"
+            "x-algorand-longname": "Asset-Close-To"
           }
         },
         "additionalProperties": false
@@ -780,7 +780,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "AssetParams"
+            "x-algorand-longname": "Asset-Params"
           }
         },
         "additionalProperties": false
@@ -818,34 +818,34 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "SelectionPK"
+            "x-algorand-longname": "Selection-PK"
           },
           "votefst": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "VoteFirst"
+            "x-algorand-longname": "Vote-First"
           },
           "votelst": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "VoteLast"
+            "x-algorand-longname": "Vote-Last"
           },
           "votekd": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "VoteKeyDilution"
+            "x-algorand-longname": "Vote-Key-Dilution"
           },
           "nonpart": {
             "type": "boolean",
             "default": false,
             "nullable": true,
-            "x-algorand-longname": "NonParticipation"
+            "x-algorand-longname": "Non-Participation"
           }
         },
         "additionalProperties": false
@@ -925,7 +925,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "CloseRemainderTo"
+            "x-algorand-longname": "Close-Remainder-To"
           }
         },
         "additionalProperties": false
@@ -958,7 +958,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "MSig"
+            "x-algorand-longname": "M-Sig"
           },
           "lsig": {
             "allOf": [
@@ -967,7 +967,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "LSig"
+            "x-algorand-longname": "L-Sig"
           },
           "sgnr": {
             "allOf": [
@@ -976,7 +976,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "AuthAddr"
+            "x-algorand-longname": "Auth-Addr"
           }
         },
         "additionalProperties": false
@@ -989,14 +989,14 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "NumUint"
+            "x-algorand-longname": "Num-Uint"
           },
           "nbs": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "NumByteSlice"
+            "x-algorand-longname": "Num-Byte-Slice"
           }
         },
         "additionalProperties": false
@@ -1025,14 +1025,14 @@
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "FirstValid"
+            "x-algorand-longname": "First-Valid"
           },
           "lv": {
             "type": "integer",
             "format": "int64",
             "default": 0,
             "nullable": true,
-            "x-algorand-longname": "LastValid"
+            "x-algorand-longname": "Last-Valid"
           },
           "note": {
             "type": "string",
@@ -1044,7 +1044,7 @@
             "type": "string",
             "default": "",
             "nullable": true,
-            "x-algorand-longname": "GenesisID"
+            "x-algorand-longname": "Genesis-ID"
           },
           "gh": {
             "allOf": [
@@ -1053,7 +1053,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "GenesisHash"
+            "x-algorand-longname": "Genesis-Hash"
           },
           "grp": {
             "allOf": [
@@ -1077,7 +1077,7 @@
               }
             ],
             "nullable": true,
-            "x-algorand-longname": "RekeyTo"
+            "x-algorand-longname": "Rekey-To"
           }
         },
         "additionalProperties": false
