@@ -32,7 +32,17 @@ public partial class $className : $!def.parentType{
 #else
 public partial class $className{
 #end
+#set( $skip = $propFile.property_skip.split(",") )
 #foreach( $prop in $props )
+#if (!$prop.algorandLongNameAlias || $prop.algorandLongNameAlias=="")
+    #set( $propName = $str.kebabToUpperCamel($prop.propertyName) )
+    #set( $fullPropNameJson = "${className}.${prop.propertyName}")
+#else
+    #set( $propName = $str.kebabToUpperCamel($prop.algorandLongNameAlias) )
+    #set( $fullPropNameJson = "${className}.${prop.algorandLongNameAlias}")
+#end
+#set( $fullPropName = "${className}.${propName}")
+#if ( !$skip.contains($fullPropName) && !$skip.contains($fullPropNameJson)  )
 #if( $prop.required)
 
     [Newtonsoft.Json.JsonProperty("$prop.propertyName", Required = Newtonsoft.Json.Required.Always)]
@@ -40,11 +50,6 @@ public partial class $className{
 #else
 
     [Newtonsoft.Json.JsonProperty("$prop.propertyName", Required = Newtonsoft.Json.Required.Default,  NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-#end
-#if (!$prop.algorandLongNameAlias || $prop.algorandLongNameAlias=="")
-    #set( $propName = $str.kebabToUpperCamel($prop.propertyName) )
-#else
-    #set( $propName = $str.kebabToUpperCamel($prop.algorandLongNameAlias) )
 #end
 #set($unityAttrib = "[field:SerializeField]" )
 #if ($className == "Account" && $prop.propertyName=="address") 
@@ -146,6 +151,7 @@ $unknown.type ## force a template failure with an unknown type
 #[[#endif]]#
 
 
+#end
 #end
 #end
     

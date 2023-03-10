@@ -97,7 +97,7 @@ namespace Algorand.Algod
     using Newtonsoft.Msgpack;
 
 
-    public partial interface I${str.capitalize($propFile.api)}Api
+    public partial interface I${str.capitalize($propFile.apiAlias)}Api
     {
 #foreach( $q in $queries )
 #if ($q.api == $propFile.api)
